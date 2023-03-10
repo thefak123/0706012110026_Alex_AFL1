@@ -19,16 +19,16 @@ func mainProgram() -> Void {
         print("Your cafetaria choice : ")
         let choice = readLine()
         if(choice == "1"){
-            let data = [["name" : "Tahu isi", "harga" : 5000], ["name" : "Nasi kuning", "harga":10000], ["name" : "Nasi campur", "harga" : 15000], ["name": "Air mineral", "harga" : 5000]]
+            let data = [["name" : "Tahu isi", "harga" : 5000], ["name" : "Nasi kuning", "harga":10000], ["name" : "Nasi campur", "harga" : 15000], ["name": "Air mineral", "harga" : 5000], ["name": "Es jeruk", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Tuku-tuku");
         }else if(choice == "2"){
-            let data = [["name" : "Nasi goreng", "harga" : 15000], ["name" : "Chicken teriyaki donburi", "harga":35000], ["name" : "Katsutama Donburi", "harga" : 30000], ["name": "Yaki gyoza", "harga" : 10000]]
+            let data = [["name" : "Nasi goreng", "harga" : 15000], ["name" : "Chicken teriyaki donburi", "harga":35000], ["name" : "Katsutama Donburi", "harga" : 30000], ["name": "Yaki gyoza", "harga" : 10000], ["name": "Es jeruk", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Gotri");
         }else if(choice == "3"){
-            let data = [["name" : "Ayam geprek", "harga" : 15000], ["name" : "Nasi sayur", "harga":15000], ["name" : "Nasi campur", "harga": 20000], ["name": "Ayam penyet", "price":15000]]
+            let data = [["name" : "Ayam geprek", "harga" : 15000], ["name" : "Nasi sayur", "harga":15000], ["name" : "Nasi campur", "harga": 20000], ["name": "Ayam penyet", "price":15000], ["name": "Es jeruk", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Madam Lie");
         }else if (choice == "4"){
-            let data = [["name" : "Teh tarik", "harga" : 10000], ["name" : "Kopi hitam", "harga":15000], ["name":"Green tea", "harga":15000], ["name": "Air mineral", "harga":5000]]
+            let data = [["name" : "Teh tarik", "harga" : 10000], ["name" : "Kopi hitam", "harga":15000], ["name":"Green tea", "harga":15000], ["name": "Air mineral", "harga":5000], ["name": "Es jeruk", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Kopte");
             
         }else if(choice == "5"){
@@ -36,7 +36,7 @@ func mainProgram() -> Void {
             goToShop(shopItems:data, carts: &carts, shopName: "EnW");
         }else if(choice?.lowercased() == "s"){
             
-            checkout(carts: &carts)
+            showCart(carts: &carts)
         }else if(choice?.lowercased() == "q"){
             runMainProgram = false;
         }else{
@@ -177,7 +177,7 @@ func checkIfStoreExist(carts : Array<[String:Array<[String:Any]>]>, val : String
     return (-1, "")
 }
 
-func checkout(carts : inout Array<[String:Array<[String:Any]>]>){
+func showCart(carts : inout Array<[String:Array<[String:Any]>]>){
     var runCheckout = true
     if(carts.count > 0){
         while(runCheckout){
