@@ -126,29 +126,38 @@ func addingToCart(shopItems : [String:Any], carts : inout Array<[String:Array<[S
         print("How many \(itemName!) do you want to buy : ")
         let num = readLine()
         if let number = Int(num!){
-            let store = checkIfStoreExist(carts:carts, val: shopName)
-            let storeIndex : Int = store.0
-            let storeName : String = store.1
-            let idx = number * 1
-            if(storeIndex != -1 && idx != -1) {
-                let productIndex : Int = checkIfProductExist(products: carts[storeIndex][storeName]!, val: shopItems["name"] as! String).0
-                if(productIndex == -1){
-                    
-                    carts[storeIndex][storeName]?.append(["name" : shopItems["name"]!, "price" : itemPrice!, "quantity" : Int(num!)!])
-                }else{
-                    let sum : Int = carts[storeIndex][storeName]![productIndex]["quantity"] as! Int + Int(num!)!
-                    carts[storeIndex][storeName]![productIndex]["quantity"] = sum
+            if number > 0{
+                let store = checkIfStoreExist(carts:carts, val: shopName)
+                let storeIndex : Int = store.0
+                let storeName : String = store.1
+                let idx = number * 1
+                if(storeIndex != -1 && idx != -1) {
+                    let productIndex : Int = checkIfProductExist(products: carts[storeIndex][storeName]!, val: shopItems["name"] as! String).0
+                    if(productIndex == -1){
+                        
+                        carts[storeIndex][storeName]?.append(["name" : shopItems["name"]!, "price" : itemPrice!, "quantity" : Int(num!)!])
+                    }else{
+                        let sum : Int = carts[storeIndex][storeName]![productIndex]["quantity"] as! Int + Int(num!)!
+                        carts[storeIndex][storeName]![productIndex]["quantity"] = sum
+                    }
+                } else {
+                    carts.append([shopName : Array()])
+                    carts[carts.count - 1][shopName]!.append(["name" : shopItems["name"] ?? "", "price" : shopItems["harga"] ?? "", "quantity" : Int(num!) ?? 0])
                 }
-            } else {
-                carts.append([shopName : Array()])
-                carts[carts.count - 1][shopName]!.append(["name" : shopItems["name"] ?? "", "price" : shopItems["harga"] ?? "", "quantity" : Int(num!) ?? 0])
+                print("")
+                print("Thank you for ordering")
+                print("")
+                runCheckout = false
+            }else{
+                print("")
+                print("Please input correctly, please try again")
+                print("")
             }
-            
-            print("Thank you for ordering")
-            
-            runCheckout = false
+           
         }else{
-            print("Please input the correctly, please try again")
+            print("")
+            print("Please input correctly, please try again")
+            print("")
         }
     }
         
