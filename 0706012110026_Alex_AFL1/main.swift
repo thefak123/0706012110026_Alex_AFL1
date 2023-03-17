@@ -23,20 +23,40 @@ func mainProgram() -> Void {
         let choice = readLine()
         print("")
         if(choice == "1"){
-            let data = [["name" : "Tahu isi", "harga" : 5000], ["name" : "Nasi kuning", "harga":10000], ["name" : "Nasi campur", "harga" : 15000], ["name": "Air mineral", "harga" : 5000], ["name": "Nasi Goreng", "harga" : 7000]]
+            let data = [["name" : "Tahu isi", "harga" : 5000],
+                        ["name" : "Nasi kuning", "harga":10000],
+                        ["name" : "Nasi campur", "harga" : 15000],
+                        ["name": "Air mineral", "harga" : 5000],
+                        ["name": "Nasi Goreng", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Tuku-tuku");
         }else if(choice == "2"){
-            let data = [["name" : "Nasi goreng", "harga" : 15000], ["name" : "Chicken teriyaki donburi", "harga":35000], ["name" : "Katsutama Donburi", "harga" : 30000], ["name": "Yaki gyoza", "harga" : 10000], ["name": "Es Coklat", "harga" : 7000]]
+            let data = [["name" : "Nasi goreng", "harga" : 15000],
+                        ["name" : "Chicken teriyaki donburi", "harga":35000],
+                        ["name" : "Katsutama Donburi", "harga" : 30000],
+                        ["name": "Yaki gyoza", "harga" : 10000],
+                        ["name": "Es Coklat", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Gotri");
         }else if(choice == "3"){
-            let data = [["name" : "Ayam geprek", "harga" : 15000], ["name" : "Nasi sayur", "harga":15000], ["name" : "Nasi campur", "harga": 20000], ["name": "Ayam penyet", "price":15000], ["name": "Air Mineral", "harga" : 7000]]
+            let data = [["name" : "Ayam geprek", "harga" : 15000],
+                        ["name" : "Nasi sayur", "harga":15000],
+                        ["name" : "Nasi campur", "harga": 20000],
+                        ["name": "Ayam penyet", "price":15000],
+                        ["name": "Air Mineral", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Madam Lie");
         }else if (choice == "4"){
-            let data = [["name" : "Teh tarik", "harga" : 10000], ["name" : "Kopi hitam", "harga":15000], ["name":"Green tea", "harga":15000], ["name": "Air mineral", "harga":5000], ["name": "Es jeruk", "harga" : 7000]]
+            let data = [["name" : "Teh tarik", "harga" : 10000],
+                        ["name" : "Kopi hitam", "harga":15000],
+                        ["name":"Green tea", "harga":15000],
+                        ["name": "Air mineral", "harga":5000],
+                        ["name": "Es jeruk", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Kopte");
             
         }else if(choice == "5"){
-            let data = [["name" : "Burger", "harga" : 30000], ["name" : "Sandwich", "harga":25000], ["name":"Air mineral", "harga": 5000], ["name": "Milo", "harga":10000], ["name": "Es teh", "harga":5000]]
+            let data = [["name" : "Burger", "harga" : 30000],
+                        ["name" : "Sandwich", "harga":25000],
+                        ["name":"Air mineral", "harga": 5000],
+                        ["name": "Milo", "harga":10000],
+                        ["name": "Es teh", "harga":5000]]
             goToShop(shopItems:data, carts: &carts, shopName: "EnW");
         }else if(choice?.lowercased() == "s"){
             /* function showCart -> untuk menjalankan program untuk fitur keranjang. Penggunaan symbol & digunakan sebagai address untuk reference, sehingga tetap bisa diubah meskipun dipass ke function lain
@@ -44,6 +64,7 @@ func mainProgram() -> Void {
             showCart(carts: &carts)
         }else if(choice?.lowercased() == "q"){
             runMainProgram = false;
+            print("Terimakasih sudah mengunjungi")
         }else{
             print("")
             print("Please input based on the menu")
@@ -108,12 +129,12 @@ func addingToCart(shopItems : [String:Any], carts : inout Array<[String:Array<[S
             let store = checkIfStoreExist(carts:carts, val: shopName)
             let storeIndex : Int = store.0
             let storeName : String = store.1
-            
-            if(storeIndex != -1) {
+            let idx = number * 1
+            if(storeIndex != -1 && idx != -1) {
                 let productIndex : Int = checkIfProductExist(products: carts[storeIndex][storeName]!, val: shopItems["name"] as! String).0
                 if(productIndex == -1){
                     
-                    carts[storeIndex][storeName]?.append(["name" : shopItems["name"]!, "price" : itemPrice, "quantity" : Int(num!)!])
+                    carts[storeIndex][storeName]?.append(["name" : shopItems["name"]!, "price" : itemPrice!, "quantity" : Int(num!)!])
                 }else{
                     let sum : Int = carts[storeIndex][storeName]![productIndex]["quantity"] as! Int + Int(num!)!
                     carts[storeIndex][storeName]![productIndex]["quantity"] = sum
@@ -152,7 +173,7 @@ func checkIfProductExist(products : Array<[String:Any]>, val : String) -> (Int, 
 }
 
 // function shwAllProductsInCart -> Menampilkan setiap produk di keranjang
-func shwAllProductsInCart(carts : inout Array<[String:Array<[String:Any]>]>) -> Bool{
+func shwAllProductsInCart(carts : inout Array<[String:Array<[String:Any]>]>){
   
     if(carts.count != 0){
         for cart in carts{
@@ -166,10 +187,10 @@ func shwAllProductsInCart(carts : inout Array<[String:Array<[String:Any]>]>) -> 
             }
             print("")
         }
-        return true
+        
     }else{
         print("Cart is empty")
-        return false
+        
     }
 }
 
@@ -233,7 +254,7 @@ func payTheCarts(carts : inout Array<[String:Array<[String:Any]>]>){
                 for product in carts[index][key]! {
                     let priceStr = product["price"] as? Int
                     let quantity = product["quantity"] as? Int
-                    let price : Double = Double(priceStr!) ?? 0
+                    let price : Double = Double(priceStr!)
                
                     totalPrice += price * Double(quantity!)
                 }
