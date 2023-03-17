@@ -13,45 +13,54 @@ mainProgram()
 
 func mainProgram() -> Void {
     var runMainProgram = true;
+    /* carts -> di dalam array ada dictionaries yang keynya nama toko, valuenya yaitu array dictionaries yang berisi informasi product di setiap toko tersebut
+    */
     var carts : Array<[String:Array<[String:Any]>]> = Array()
     while(runMainProgram){
         print("Welcome to UC Walk Cafetaria 😄\nPlease choose cafetaria\n\n[1] Tuku tuku\n[2] Gotri\n[3] Madam lie\n[4] Kopte\n[5] EnW\n-\n[S]hopping cart\n[Q]uit");
         print("Your cafetaria choice : ")
+        
         let choice = readLine()
+        print("")
         if(choice == "1"){
-            let data = [["name" : "Tahu isi", "harga" : 5000], ["name" : "Nasi kuning", "harga":10000], ["name" : "Nasi campur", "harga" : 15000], ["name": "Air mineral", "harga" : 5000], ["name": "Es jeruk", "harga" : 7000]]
+            let data = [["name" : "Tahu isi", "harga" : 5000], ["name" : "Nasi kuning", "harga":10000], ["name" : "Nasi campur", "harga" : 15000], ["name": "Air mineral", "harga" : 5000], ["name": "Nasi Goreng", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Tuku-tuku");
         }else if(choice == "2"){
-            let data = [["name" : "Nasi goreng", "harga" : 15000], ["name" : "Chicken teriyaki donburi", "harga":35000], ["name" : "Katsutama Donburi", "harga" : 30000], ["name": "Yaki gyoza", "harga" : 10000], ["name": "Es jeruk", "harga" : 7000]]
+            let data = [["name" : "Nasi goreng", "harga" : 15000], ["name" : "Chicken teriyaki donburi", "harga":35000], ["name" : "Katsutama Donburi", "harga" : 30000], ["name": "Yaki gyoza", "harga" : 10000], ["name": "Es Coklat", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Gotri");
         }else if(choice == "3"){
-            let data = [["name" : "Ayam geprek", "harga" : 15000], ["name" : "Nasi sayur", "harga":15000], ["name" : "Nasi campur", "harga": 20000], ["name": "Ayam penyet", "price":15000], ["name": "Es jeruk", "harga" : 7000]]
+            let data = [["name" : "Ayam geprek", "harga" : 15000], ["name" : "Nasi sayur", "harga":15000], ["name" : "Nasi campur", "harga": 20000], ["name": "Ayam penyet", "price":15000], ["name": "Air Mineral", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Madam Lie");
         }else if (choice == "4"){
             let data = [["name" : "Teh tarik", "harga" : 10000], ["name" : "Kopi hitam", "harga":15000], ["name":"Green tea", "harga":15000], ["name": "Air mineral", "harga":5000], ["name": "Es jeruk", "harga" : 7000]]
             goToShop(shopItems:data, carts: &carts, shopName: "Kopte");
             
         }else if(choice == "5"){
-            let data = [["name" : "Burger", "harga" : 30000], ["name" : "Sandwich", "harga":25000], ["name":"Air mineral", "harga": 5000], ["name": "Milo", "harga":10000]]
+            let data = [["name" : "Burger", "harga" : 30000], ["name" : "Sandwich", "harga":25000], ["name":"Air mineral", "harga": 5000], ["name": "Milo", "harga":10000], ["name": "Es teh", "harga":5000]]
             goToShop(shopItems:data, carts: &carts, shopName: "EnW");
         }else if(choice?.lowercased() == "s"){
-            
+            /* function showCart -> untuk menjalankan program untuk fitur keranjang. Penggunaan symbol & digunakan sebagai address untuk reference, sehingga tetap bisa diubah meskipun dipass ke function lain
+            */
             showCart(carts: &carts)
         }else if(choice?.lowercased() == "q"){
             runMainProgram = false;
         }else{
             print("")
-            print("Please input correctly")
+            print("Please input based on the menu")
             print("")
         }
     }
 }
-    
+ 
+/* function goToShop -> untuk menjalankan program untuk menampilkan menu produk dari setiap toko dan sebagai pengarah dari pilihan pay atau back
+*/
+
 func goToShop(shopItems : [[String:Any]], carts : inout Array<[String:Array<[String:Any]>]>, shopName : String) -> Void{
     var runTukuTukuShop = true;
     
     while(runTukuTukuShop){
         var counter : Int = 1
+        print("Menu dari \(shopName)")
         for item in shopItems {
        
             print("[\(counter)] \(item["name"]!)");
@@ -62,7 +71,7 @@ func goToShop(shopItems : [[String:Any]], carts : inout Array<[String:Array<[Str
         print("Your choice : ")
         let choice = readLine()
         
-        if var number = Int(choice!) {
+        if let number = Int(choice!) {
             if(number < 1 || number > shopItems.count){
                 if(number == 0){
                     runTukuTukuShop = false
@@ -83,7 +92,8 @@ func goToShop(shopItems : [[String:Any]], carts : inout Array<[String:Array<[Str
     }
 }
 
-
+/* function addingToCart -> untuk menambahkan produk ke keranjang
+*/
 
 func addingToCart(shopItems : [String:Any], carts : inout Array<[String:Array<[String:Any]>]>, shopName : String) -> Void{
     var runCheckout = true;
@@ -94,7 +104,7 @@ func addingToCart(shopItems : [String:Any], carts : inout Array<[String:Array<[S
         print("\(itemName!) @\(itemPrice!)")
         print("How many \(itemName!) do you want to buy : ")
         let num = readLine()
-        if var number = Int(num!){
+        if let number = Int(num!){
             let store = checkIfStoreExist(carts:carts, val: shopName)
             let storeIndex : Int = store.0
             let storeName : String = store.1
@@ -117,11 +127,12 @@ func addingToCart(shopItems : [String:Any], carts : inout Array<[String:Array<[S
             
             runCheckout = false
         }else{
-            print("Please input the correct number please try again")
+            print("Please input the correctly, please try again")
         }
     }
         
 }
+// function checkIfProductExist -> Melakukan pengecekan apakah product ada di dalam keranjang
 
 func checkIfProductExist(products : Array<[String:Any]>, val : String) -> (Int, String){
     var index : Int = 0
@@ -140,6 +151,7 @@ func checkIfProductExist(products : Array<[String:Any]>, val : String) -> (Int, 
     return (-1, "")
 }
 
+// function shwAllProductsInCart -> Menampilkan setiap produk di keranjang
 func shwAllProductsInCart(carts : inout Array<[String:Array<[String:Any]>]>) -> Bool{
   
     if(carts.count != 0){
@@ -161,12 +173,13 @@ func shwAllProductsInCart(carts : inout Array<[String:Array<[String:Any]>]>) -> 
     }
 }
 
+// function checkIfStoreExist -> Check apakah nama toko ada di keranjang
 func checkIfStoreExist(carts : Array<[String:Array<[String:Any]>]>, val : String) -> (Int, String){
     var index : Int = 0
     for cart in carts{
         
         if(cart[val] != nil){
-            for (key, value) in cart{
+            for (key, _) in cart{
                 return (index, key)
             }
             
@@ -177,6 +190,8 @@ func checkIfStoreExist(carts : Array<[String:Array<[String:Any]>]>, val : String
     return (-1, "")
 }
 
+/* function shwAllProductsInCart -> Menampilkan setiap produk di keranjang & terdapat pilihan antara pengguna ingin membayar (Input P) atau kembali ke menu utama (Input B)
+*/
 func showCart(carts : inout Array<[String:Array<[String:Any]>]>){
     var runCheckout = true
     if(carts.count > 0){
@@ -199,11 +214,14 @@ func showCart(carts : inout Array<[String:Array<[String:Any]>]>){
             }
         }
     }else{
+        print("")
         print("Your cart is empty")
+        print("")
     }
     
 }
 
+// payTheCarts -> Melakukan pembayaran dari keranjang
 func payTheCarts(carts : inout Array<[String:Array<[String:Any]>]>){
     var payingTheCarts = true
     
@@ -211,7 +229,7 @@ func payTheCarts(carts : inout Array<[String:Array<[String:Any]>]>){
         var totalPrice : Double = 0
         var index = 0
         for cart in carts {
-            for (key, value) in cart{
+            for (key, _) in cart{
                 for product in carts[index][key]! {
                     let priceStr = product["price"] as? Int
                     let quantity = product["quantity"] as? Int
@@ -227,9 +245,9 @@ func payTheCarts(carts : inout Array<[String:Array<[String:Any]>]>){
         print("Total price : \(totalPrice)" )
         
         print("Please input the amount of money : ")
-        print("")
-        let money = readLine()
         
+        let money = readLine()
+        print("")
         if(money == ""){
             print("Please enter the amount of money")
         }else{
@@ -242,6 +260,10 @@ func payTheCarts(carts : inout Array<[String:Array<[String:Any]>]>){
                     print("Enjoy your meals")
                     carts.removeAll()
                     payingTheCarts = false
+                    print("")
+                }else if money == 0{
+                    print("")
+                    print("Money can't be zero")
                     print("")
                 }else if money < 0 {
                     print("")
